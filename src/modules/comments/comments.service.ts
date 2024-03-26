@@ -28,4 +28,14 @@ export class CommentsService {
       throw new BadRequestException(error.detail);
     }
   }
+
+  async findAll(noticeId: string) {
+    return await this.commentRepository.find({
+      where: {
+        news: {
+          id: noticeId,
+        },
+      },
+    });
+  }
 }

@@ -12,12 +12,8 @@ import { ApiTags } from "@nestjs/swagger";
 import { CreateUserDto, UpdateUserDto } from "./dto";
 import { UsersService } from "./users.service";
 
-import { Auth } from "src/auth/decorator";
-import { ValidRoles } from "src/auth/interface";
-
 @ApiTags("Usuarios")
 @Controller("users")
-@Auth(ValidRoles.admin)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

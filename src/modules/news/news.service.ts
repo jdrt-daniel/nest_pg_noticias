@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { CreateNewsDto, UpdateNewsDto } from "./dto";
@@ -31,7 +31,25 @@ export class NewsService {
   }
 
   findAll() {
-    return `This action returns all news`;
+    return this.newsRepository.find({
+      skip: 0,
+      take: 10,
+    });
+  }
+
+  findRecents() {
+    return this.newsRepository.find({
+      where: {
+        isApproved: true,
+      },
+      take: 4,
+    });
+  }
+
+  async findByTitle(title?: string) {
+    return await this.newsRepository.findBy({
+      title: Like(`%${title}%`),
+    });
   }
 
   async findOne(id: string): Promise<News> {

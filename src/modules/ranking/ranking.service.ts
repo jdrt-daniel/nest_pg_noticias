@@ -30,4 +30,14 @@ export class RankingService {
       throw new BadRequestException(error.detail);
     }
   }
+
+  async findAll(noticeId: string) {
+    return await this.rankingRepository.find({
+      where: {
+        news: {
+          id: noticeId,
+        },
+      },
+    });
+  }
 }

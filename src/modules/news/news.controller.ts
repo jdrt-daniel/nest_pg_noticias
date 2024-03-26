@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from "@nestjs/common";
 import { NewsService } from "./news.service";
 import { CreateNewsDto } from "./dto/create-news.dto";
@@ -49,6 +50,17 @@ export class NewsController {
   @Get()
   findAll() {
     return this.newsService.findAll();
+  }
+
+  @Get("recents")
+  findRecents() {
+    return this.newsService.findRecents();
+  }
+
+  @Get("search")
+  findByTitle(@Query() search) {
+    console.log(search);
+    return this.newsService.findByTitle(search.title);
   }
 
   @Get(":id")

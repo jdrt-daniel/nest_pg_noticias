@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param } from "@nestjs/common";
 import { CommentsService } from "./comments.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { ApiTags } from "@nestjs/swagger";
@@ -12,8 +12,13 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  @Auth(ValidRoles.suscriptor)
+  @Auth(ValidRoles.suscriptor, ValidRoles.admin)
   create(@Body() createCommentDto: CreateCommentDto, @GetUser() user: User) {
     return this.commentsService.create(createCommentDto, user);
+  }
+
+  @Get(":noticeId")
+  findAll(@Param("noticeId") noticeId: string) {
+    return this.commentsService.findAll(noticeId);
   }
 }
